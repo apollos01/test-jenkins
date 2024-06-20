@@ -1,6 +1,34 @@
 
+import { useState } from "react"
 import { Link } from "react-router-dom"
+import { Axios } from "axios";
 export const Login = () =>{
+
+    
+        const [formData, setFormData] = useState({
+          usernameOrEmail: '',
+          password: '',
+        });
+      
+        const handleChange = (e) => {
+          const { name, value } = e.target;
+          setFormData({
+            ...formData,
+            [name]: value,
+          });
+        };
+      
+        const handleSubmit = async (e) => {
+          e.preventDefault();
+          try {
+            const response = await Axios.post('http://localhost:8000/login/', formData);
+            // Handle the response as needed, e.g., saving token, redirecting, etc.
+            alert(response.data.message);
+          } catch (error) {
+            console.error(error);
+            alert('Login failed');
+          }
+        };
         return (
            
             
@@ -15,13 +43,13 @@ export const Login = () =>{
                                         <span>Don't have an account? <Link to="/register" style={{ color: 'black' }}>Sign Up</Link></span>
                                         <h2 className="card-title mt-3">Login</h2>
                                     </div>
-                                    <form>
+                                    <form onSubmit={handleSubmit}>
                                         <div className="form-group input-box position-relative">
-                                            <input type="text" className="form-control" placeholder="Username or Email"/>
+                                            <input type="text" className="form-control" placeholder="Username or Email" name="usernameOrEmail" value={formData.usernameOrEmail} onChange={handleChange}/>
                                             <i className="bx bx-user position-absolute" style={{right: '10px', top: '50%', transform: 'translateY(-50%)'}}></i>
                                         </div>
                                         <div className="form-group input-box position-relative">
-                                            <input type="password" className="form-control" placeholder="Password"/>
+                                            <input type="password" className="form-control" placeholder="Password" name="password" value={formData.password} onChange={handleChange}/>
                                             <i className="bx bx-lock-alt position-absolute" style={{right: '10px', top: '50%', transform: 'translateY(-50%)'}}></i>
                                         </div>
                                         <div className="form-group">
