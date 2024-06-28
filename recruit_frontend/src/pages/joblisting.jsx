@@ -1,9 +1,9 @@
 
 import React, { useEffect, useState } from 'react';
-import { NavBar } from "../components/navbar"
 import {Footer} from "../components/footer"
 import { Link } from "react-router-dom" 
 import { api } from "../api"
+import { NavBar } from '../components/navbar';
 
 export const JobListing = () => {
     const [jobs, setJobs] = useState([]);

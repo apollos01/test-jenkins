@@ -4,10 +4,12 @@ import { Link } from 'react-router-dom';
 
 export const Register = () => {
     const [formData, setFormData] = useState({
-        firstname: '',
-        lastname: '',
+        userName: '',
         email: '',
-        password: ''
+        password: '',
+        companyName: '',
+        companyCode: '',
+        role: "applicant"
     });
 
     const handleChange = (e) => {
@@ -18,15 +20,14 @@ export const Register = () => {
         });
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        try {
-            const response = await axios.post('http://localhost:8000/register/', formData);
-            alert(response.data.message);
-        } catch (error) {
-            console.error(error);
-            alert('Registration failed');
-        }
+            const response = axios.post('http://127.0.0.1:8000/users', formData)
+            .then(() => alert(response.data.message))
+            .catch(error =>{
+                console.error(error);
+            } );
+    
     };
 
     return (
@@ -45,14 +46,14 @@ export const Register = () => {
                                         <input 
                                             type="text" 
                                             className="form-control" 
-                                            placeholder="Firstname" 
-                                            name="firstname"  // Added name attribute
-                                            value={formData.firstname} 
+                                            placeholder="username" 
+                                            name="userName"  // Added name attribute
+                                            value={formData.userName} 
                                             onChange={handleChange}
                                         />
                                         <i className="bx bx-user position-absolute" style={{ right: '10px', top: '50%', transform: 'translateY(-50%)' }}></i>
                                     </div>
-                                    <div className="form-group col-md-6 input-box position-relative">
+                                    {/* <div className="form-group col-md-6 input-box position-relative">
                                         <input 
                                             type="text" 
                                             className="form-control" 
@@ -62,7 +63,7 @@ export const Register = () => {
                                             onChange={handleChange}
                                         />
                                         <i className="bx bx-user position-absolute" style={{ right: '10px', top: '50%', transform: 'translateY(-50%)' }}></i>
-                                    </div>
+                                    </div> */}
                                 </div>
                                 <div className="form-group input-box position-relative">
                                     <input 
