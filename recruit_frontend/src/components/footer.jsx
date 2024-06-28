@@ -62,8 +62,8 @@ export const Footer = () =>{
                                      <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
                                      method="get" className="subscribe_form relative mail_part">
                                          <input type="email" name="email" id="newsletter-form-email" placeholder="Email Address"
-                                         className="placeholder hide-on-focus" onfocus="this.placeholder = ''"
-                                         onblur="this.placeholder = ' Email Address '"/>
+                                         className="placeholder hide-on-focus" onFocus="this.placeholder = ''"
+                                         onBlur="this.placeholder = ' Email Address '"/>
                                          <div className="form-icon">
                                              <button type="submit" name="submit" id="newsletter-submit"
                                              className="email_icon newsletter-submit button-contactForm"><img src="assets/img/icon/form.png" alt=""/></button>

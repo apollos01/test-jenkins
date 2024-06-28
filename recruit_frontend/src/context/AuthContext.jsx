@@ -1,38 +1,35 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
-import axios from 'axios';
+import React, { createContext, useState, useEffect } from 'react';
 
+// Create the context
 const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+// Create a provider component
+const AuthProvider = ({ children }) => {
+    const [user, setUser] = useState(null);
 
-  const login = async (credentials) => {
-    const response = await axios.post('http://localhost:8000/login/', credentials);
-    setUser(response.data.user);
-    // Store token in local storage or context
-    localStorage.setItem('token', response.data.token);
-  };
+    useEffect(() => {
+        // Check if user is already logged in (e.g., check local storage or make an API call)
+        const loggedInUser = JSON.parse(localStorage.getItem('user'));
+        if (loggedInUser) {
+            setUser(loggedInUser);
+        }
+    }, []);
 
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem('token');
-  };
+    const login = (userData) => {
+        setUser(userData);
+        localStorage.setItem('user', JSON.stringify(userData));
+    };
 
-  useEffect(() => {
-    // Optionally, you can verify token and get user info on initial load
-    const token = localStorage.getItem('token');
-    if (token) {
-      // Fetch user info based on token
-    }
-  }, []);
+    const logout = () => {
+        setUser(null);
+        localStorage.removeItem('user');
+    };
 
-  return (
-    <AuthContext.Provider value={{ user, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
+    return (
+        <AuthContext.Provider value={{ user, login, logout }}>
+            {children}
+        </AuthContext.Provider>
+    );
 };
 
-export const useAuth = () => {
-  return useContext(AuthContext);
-};
+export { AuthContext, AuthProvider };

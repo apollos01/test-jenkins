@@ -110,7 +110,7 @@ export const MainPage = () => {
                                 <span className="flaticon-helmet"></span>
                             </div>
                             <div className="services-cap">
-                               <h5><a href="job_listing.html">Construction</a></h5>
+                               <h5><a href="job_listing.html">Construction</a></h5> 
                                 <span>(658)</span>
                             </div>
                         </div>
