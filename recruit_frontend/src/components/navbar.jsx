@@ -1,10 +1,17 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import { jwtDecode } from 'jwt-decode'
 
 export const NavBar = () => {
     const { user, logout } = useContext(AuthContext);
-
+    const [userId, setUserId] = useState(null);
+    
+    useEffect(() => {
+        if(localStorage.getItem("token")!= undefined) {
+            setUserId(jwtDecode(localStorage.getItem("token")))
+        }
+    },[])
     return (
         <header>
             <div className="header-area header-transparrent">
@@ -23,15 +30,15 @@ export const NavBar = () => {
                                             <li><Link to="/">Home</Link></li>
                                             <li><Link to="/joblisting">Find a Job</Link></li>
                                             <li><Link to="/about">About</Link></li>
-                                            {user && user.role === 'admin' && (
+                                            {userId && userId.userName === 'admin' && (
                                                 <li><Link to="/admin/create-job">Create Job</Link></li>
                                             )}
                                         </ul>
                                     </nav>
                                     <div className="header-btn d-none f-right d-lg-block">
-                                        {user ? (
+                                        {userId ? (
                                             <div className="profile-info">
-                                                <span className="user-name">Hello, {user.name}</span>
+                                                <span className="user-name">Hello, {userId.sub}</span>
                                                 <button onClick={logout} className="btn head-btn2">Logout</button>
                                             </div>
                                         ) : (

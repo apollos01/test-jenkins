@@ -2,24 +2,29 @@
 import React, { useEffect, useState } from 'react';
 import {Footer} from "../components/footer"
 import { Link } from "react-router-dom" 
-import { api } from "../api"
+import axios from 'axios';
 import { NavBar } from '../components/navbar';
+import { jwtDecode } from 'jwt-decode'
 
 export const JobListing = () => {
     const [jobs, setJobs] = useState([]);
+    const [userId, setUserId] = useState(null);
+    const [responseApplyOffer, setresponseApplyOffer] = useState({})
 
     useEffect(() => {
-        const fetchJobs = async () => {
-            try {
-                const response = await api.get('http://localhost:8000/get_offers/');
-                setJobs(response.data);
-            } catch (error) {
-                console.error('Error fetching jobs:', error);
-            }
-        };
+        const fetchJobs =  () => {
+            console.log("userid")
+            if(localStorage.getItem("token")!= undefined) {
+                console.log("userid",userId)
+                setUserId(jwtDecode(localStorage.getItem("token"))?.userId)
+                axios.get('http://127.0.0.1:8000/get_offers', { params: { applicant: userId} })
+                .then(response => setJobs(response.data))
+                .catch((e) =>console.error('Error fetching offers:', e) );
+            }   
+        }
 
         fetchJobs();
-    }, []);
+    }, [userId,responseApplyOffer]);
 
     return (
         <div>
@@ -31,7 +36,8 @@ export const JobListing = () => {
                             <div className="row">
                                 <div className="col-xl-12">
                                     <div className="hero-cap text-center">
-                                        <h2>Get your job</h2>
+                                        
+                                        {userId ? <h2>Get your job</h2> : <h2>you have to login to access this information</h2>}
                                     </div>
                                 </div>
                             </div>
@@ -53,19 +59,34 @@ export const JobListing = () => {
                                                     </div>
                                                     <div className="job-tittle job-tittle2">
                                                         <a href="#">
-                                                            <h4>{job.title}</h4>
+                                                            <h4>{job.offreName}</h4>
                                                         </a>
                                                         <ul>
-                                                            <li>{job.company}</li>
-                                                            <li><i className="fas fa-map-marker-alt"></i>{job.location}</li>
-                                                            <li>{job.salary}</li>
+                                                            <li>{job?.company}</li>
+                                                            <li><i className="fa fa-info-circle"></i>{job.Description}</li>
+                                                        
                                                         </ul>
                                                     </div>
                                                 </div>
+                                                { job.applicantStatus ? 
+                                                    <div >
+                                                    <span className="badge badge-primary">{job.applicantStatus}</span>
+                                                    <span>{job?.posted}</span>
+                                                </div> :
                                                 <div className="items-link items-link2 f-right">
-                                                    <Link to="/">{job.type}</Link>
-                                                    <span>{job.posted}</span>
-                                                </div>
+                                                <Link onClick={() => {
+                                                     const body = {
+                                                        idApplicant: userId,
+                                                        idOffre: job.id,
+                                                        status: ""
+                                                     }
+                                                     axios.post('http://127.0.0.1:8000/applicantHelp',body )
+                                                     .then(response => setresponseApplyOffer(response.data));
+                                                }}>apply Offer</Link>
+                                                <span>{job?.posted}</span>
+                                            </div>
+                                                }
+                                                
                                             </div>
                                         ))}
                                     </div>
