@@ -19,36 +19,12 @@ export const MainPage = () => {
                                 </div>
                             </div>
                         </div>
-                        
-                        <div className="row">
-                            <div className="col-xl-8">
-                                
-                                <form action="#" className="search-box">
-                                    <div className="input-form">
-                                        <input type="text" placeholder="Job Tittle or keyword"/>
-                                    </div>
-                                    {/* <div className="select-form">
-                                        <div className="select-itms">
-                                            <select name="select" id="select1">
-                                                <option value="">Location BD</option>
-                                                <option value="">Location PK</option>
-                                                <option value="">Location US</option>
-                                                <option value="">Location UK</option>
-                                            </select>
-                                        </div>
-                                    </div> */}
-                                    <div className="search-form">
-                                        <a href="#">Find job</a>
-                                    </div>	
-                                </form>	
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
         
-        <div className="our-services section-pad-t30">
+        {/* <div className="our-services section-pad-t30">
             <div className="container">
                 
                 <div className="row">
@@ -158,9 +134,9 @@ export const MainPage = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div> */}
         
-         <div className="online-cv cv-bg section-overly pt-90 pb-120"  data-background="assets/img/gallery/cv_bg.jpg">
+         {/* <div className="online-cv cv-bg section-overly pt-90 pb-120"  data-background="assets/img/gallery/cv_bg.jpg">
             <div className="container">
                 <div className="row justify-content-center">
                     <div className="col-xl-10">
@@ -172,9 +148,9 @@ export const MainPage = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div> */}
         
-        <section className="featured-job-area feature-padding">
+        {/* <section className="featured-job-area feature-padding">
             <div className="container">
                 
                 <div className="row">
@@ -271,7 +247,7 @@ export const MainPage = () => {
                 </div>
             </div>
         </section>
-        
+         */}
         <div className="apply-process-area apply-bg pt-150 pb-150" data-background="assets/img/gallery/how-applybg.png">
             <div className="container">
                 
