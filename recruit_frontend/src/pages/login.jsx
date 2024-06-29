@@ -1,13 +1,14 @@
 
 import { useState } from "react"
 import { Link,useNavigate } from "react-router-dom"
-import { Axios } from "axios";
+import axios from 'axios';
+import { jwtDecode } from 'jwt-decode'
 export const Login = () =>{
 
     const navigate = useNavigate();
 
         const [formData, setFormData] = useState({
-          usernameOrEmail: '',
+          username: '',
           password: '',
         });
       
@@ -20,17 +21,19 @@ export const Login = () =>{
         };
       
         
-        const handleSubmit = async (e) => {
+        const handleSubmit = (e) => {
           e.preventDefault();
-          try {
-            const response = await Axios.post('http://localhost:8000/login/', formData);
-            // Handle the response as needed, e.g., saving token, redirecting, etc.
-            alert(response.data.message);
+            let bodyFormData = new FormData()
+            bodyFormData.append("username",formData.username)
+            bodyFormData.append("password",formData.password)
+            const response =  axios.post('http://127.0.0.1:8000/token', bodyFormData)
+            .then((response) =>{
+                localStorage.setItem("token",response.data.access_token)
             navigate('/')
-          } catch (error) {
-            console.error(error);
-            alert('Login failed');
-          }
+            })
+            .catch((e) => console.log('error',e))
+
+          
         };
         return (
             <div className="container mt-5">
@@ -54,7 +57,7 @@ export const Login = () =>{
                             </div>
                             <form onSubmit={handleSubmit}>
                                 <div className="form-group input-box position-relative">
-                                    <input type="text" className="form-control" placeholder="Username or Email" name="usernameOrEmail" value={formData.usernameOrEmail} onChange={handleChange} />
+                                    <input type="text" className="form-control" placeholder="Username" name="username" value={formData.username} onChange={handleChange} />
                                     <i className="bx bx-user position-absolute" style={{ right: '10px', top: '50%', transform: 'translateY(-50%)' }}></i>
                                 </div>
                                 <div className="form-group input-box position-relative">
